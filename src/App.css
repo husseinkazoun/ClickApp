@@ -1,0 +1,3 @@
+/* Minimal app styles; Tailwind is via CDN in index.html */
+html, body, #root { height: 100%; }
+body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
