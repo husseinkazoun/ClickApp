@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Click’App — Brand Assets</title>
+<style>
+    :root{
+      --teal:#0f766e; --ink:#0f172a; --light:#ffffff; --border:#e2e8f0;
+    }
+    body{font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:24px;color:var(--ink);background:#f8fafc}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{border:1px solid var(--border);border-radius:12px;padding:16px;background:#fff}
+    .dl{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    a.button{display:inline-block;padding:8px 12px;border:1px solid var(--teal);border-radius:8px;text-decoration:none;color:var(--teal)}
+    img{max-width:100%}
+    .tile{padding:12px;border-radius:8px;display:inline-block;border:1px solid var(--border);background:#fff}
+    .tile-dark{padding:12px;border-radius:8px;display:inline-block;background:#0f172a}
+    .brand-wordmark-img{height:64px}
+    .icon-img-64{height:64px}
+    .fav{image-rendering:pixelated;border:1px solid var(--border)}
+    header{margin-bottom:16px}
+  </style>
+
+  <!-- Favicons / PWA -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <!-- Removed favicon.svg because we don't ship one -->
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <!-- Theme color -->
+  <meta name="theme-color" content="#0f766e">
+  <meta name="msapplication-TileColor" content="#0f766e">
+  <meta name="msapplication-navbutton-color" content="#0f766e">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script>
+    (function(){
+      var m=document.querySelector('meta[name="theme-color"]');
+      var mq=window.matchMedia('(prefers-color-scheme: dark)');
+      function set(e){ m.setAttribute('content', e.matches ? '#0f172a' : '#0f766e'); }
+      set(mq); mq.addEventListener('change', set);
+    })();
+  </script>
+
+  <!-- Social preview -->
+  <meta property="og:title" content="Click’App">
+  <meta property="og:description" content="Automation tools for NGOs and teams.">
+  <meta property="og:image" content="/og-image.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <header>
+    <h1>Click’App — Brand Assets</h1>
+    <p>Official icons and wordmarks for Click’App. Do not stretch, recolor, or distort.</p>
+  </header>
+
+  <div class="grid">
+
+    <!-- ICON: light & dark -->
+    <div class="card">
+      <h3>Icon — Light & Dark</h3>
+      <div class="dl">
+        <div class="tile">
+          <img src="clickapp_icon_ink.svg" alt="Click’App icon (ink on light)" class="icon-img-64">
+        </div>
+        <div class="tile-dark">
+          <img src="clickapp_icon_white.svg" alt="Click’App icon (white on dark)" class="icon-img-64">
+        </div>
+      </div>
+      <div class="dl">
+        <a class="button" href="clickapp_icon_ink.svg" download>Download (ink)</a>
+        <a class="button" href="clickapp_icon_white.svg" download>Download (white)</a>
+      </div>
+    </div>
+
+    <!-- WORDMARK: light & dark -->
+    <div class="card">
+      <h3>Wordmark — Light & Dark</h3>
+      <div class="dl">
+        <div class="tile">
+          <img src="clickapp_wordmark_ink.svg" alt="Click’App wordmark (ink on light)" class="brand-wordmark-img">
+        </div>
+        <div class="tile-dark">
+          <img src="clickapp_wordmark_white.svg" alt="Click’App wordmark (white on dark)" class="brand-wordmark-img">
+        </div>
+      </div>
+      <div class="dl">
+        <a class="button" href="clickapp_wordmark_ink.svg" download>Download (ink)</a>
+        <a class="button" href="clickapp_wordmark_white.svg" download>Download (white)</a>
+      </div>
+    </div>
+
+    <!-- App icons -->
+    <div class="card">
+      <h3>App Icons (PNG)</h3>
+      <div class="dl">
+        <img src="icon-192.png" alt="icon 192" class="icon-img-64" style="border-radius:14px;border:1px solid #e2e8f0">
+        <img src="icon-512.png" alt="icon 512" class="icon-img-64" style="border-radius:14px;border:1px solid #e2e8f0">
+      </div>
+      <div class="dl">
+        <a class="button" href="icon-192.png" download>icon-192.png</a>
+        <a class="button" href="icon-512.png" download>icon-512.png</a>
+      </div>
+    </div>
+
+    <!-- Favicons -->
+    <div class="card">
+      <h3>Favicons</h3>
+      <div class="dl">
+        <img src="favicon-16.png" alt="16px" class="fav">
+        <img src="favicon-32.png" alt="32px" class="fav">
+      </div>
+      <div class="dl">
+        <a class="button" href="favicon-16.png" download>16px</a>
+        <a class="button" href="favicon-32.png" download>32px</a>
+        <a class="button" href="favicon.ico" download>.ico</a>
+      </div>
+    </div>
+
+    <!-- Social previews -->
+    <div class="card">
+      <h3>Social Previews</h3>
+      <div class="dl">
+        <img src="og-image.png" alt="OG light">
+      </div>
+      <div class="dl">
+        <a class="button" href="og-image.png" download>og-image.png</a>
+        <a class="button" href="og-image-dark.png" download>og-image-dark.png</a>
+      </div>
+    </div>
+    <!-- Lockups -->
+    <div class="card" style="grid-column:1 / -1">
+      <h3>Lockups (Icon + Wordmark) — Horizontal &amp; Stacked</h3>
+
+      <!-- Horizontal -->
+      <h4 style="margin:.5rem 0 0">Horizontal</h4>
+      <div class="dl">
+        <div class="tile">
+          <img src="clickapp_lockup_horiz_ink.svg" alt="Horizontal lockup (ink on light)" class="brand-wordmark-img">
+        </div>
+        <div class="tile-dark">
+          <img src="clickapp_lockup_horiz_white.svg" alt="Horizontal lockup (white on dark)" class="brand-wordmark-img">
+        </div>
+      </div>
+      <div class="dl">
+        <a class="button" href="clickapp_lockup_horiz_ink.svg" download>Download (ink)</a>
+        <a class="button" href="clickapp_lockup_horiz_white.svg" download>Download (white)</a>
+      </div>
+
+      <!-- Stacked -->
+      <h4 style="margin:1rem 0 0">Stacked</h4>
+      <div class="dl">
+        <div class="tile">
+          <img src="clickapp_lockup_stacked_ink.svg" alt="Stacked lockup (ink on light)" class="brand-wordmark-img">
+        </div>
+        <div class="tile-dark">
+          <img src="clickapp_lockup_stacked_white.svg" alt="Stacked lockup (white on dark)" class="brand-wordmark-img">
+        </div>
+      </div>
+      <div class="dl">
+        <a class="button" href="clickapp_lockup_stacked_ink.svg" download>Download (ink)</a>
+        <a class="button" href="clickapp_lockup_stacked_white.svg" download>Download (white)</a>
+      </div>
+    </div>
+
+  
+
+    <!-- Bundle -->
+    <div class="card" style="grid-column:1 / -1">
+      <div class="card" style="grid-column:1 / -1">
+  <h3>Usage Guidelines — Minimum Sizes</h3>
+  <ul>
+    <li><strong>Screen:</strong> Horizontal lockup ≥ <strong>32px height</strong>, Stacked lockup ≥ <strong>80px width</strong>.</li>
+    <li><strong>Print (300 DPI):</strong> Horizontal lockup ≥ <strong>1.0 in / 25.4 mm</strong>, Stacked lockup ≥ <strong>0.75 in / 19 mm</strong>.</li>
+  </ul>
+  <p>These minimums ensure legibility across digital and print applications. Always proof test before final production.</p>
+</div>
+
+<h3>Bundle</h3>
+      <p>Download the complete brand assets pack (SVG + PNG + ICO + OG):</p>
+      <!-- This href is auto-updated by `npm run brand:all` -->
+      <a class="button" href="ClickApp_BrandAssets_20251001-113701.zip
+" download>Download All Assets</a>
+      <p class="text-slate-600" style="margin-top:6px">Latest: .{zip}.</p>
+    </div>
+  </div>
+</body>
+</html>
