@@ -1,100 +1,92 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Click’App — Brand Assets</title>
-
-  <style>
-    /* Base layout */
-    body{
-      font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      margin:24px;
-      color:#0f172a;
-      background-color:#0f766e; /* teal default */
+<style>
+    :root{
+      --teal:#0f766e; --ink:#0f172a; --light:#ffffff; --border:#e2e8f0;
     }
+    body{font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:24px;color:var(--ink);background:#f8fafc}
     .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-    .card{border:1px solid #e2e8f0;border-radius:12px;padding:16px;background:#fff}
+    .card{border:1px solid var(--border);border-radius:12px;padding:16px;background:#fff}
     .dl{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-    a.button{display:inline-block;padding:8px 12px;border:1px solid #0f766e;border-radius:8px;text-decoration:none;color:#0f766e}
+    a.button{display:inline-block;padding:8px 12px;border:1px solid var(--teal);border-radius:8px;text-decoration:none;color:var(--teal)}
     img{max-width:100%}
-
-    /* Preview tiles */
-    .tile-dark{
-      background:#0f172a;
-      padding:12px;
-      border-radius:8px;
-      display:inline-block;
-    }
+    .tile{padding:12px;border-radius:8px;display:inline-block;border:1px solid var(--border);background:#fff}
+    .tile-dark{padding:12px;border-radius:8px;display:inline-block;background:#0f172a}
     .brand-wordmark-img{height:64px}
     .icon-img-64{height:64px}
-
-    /* Small assets */
-    .favicon-img{
-      image-rendering:pixelated;
-      border:1px solid #e2e8f0;
-    }
+    .fav{image-rendering:pixelated;border:1px solid var(--border)}
+    header{margin-bottom:16px}
   </style>
 
-  <!-- Icons & PWA -->
-  <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="/icon-192.png" />
-  <link rel="manifest" href="/site.webmanifest" />
+  <!-- Favicons / PWA -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <!-- Removed favicon.svg because we don't ship one -->
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="manifest" href="/site.webmanifest">
 
-  <!-- Theme color for Chrome, Edge, Safari -->
-  <meta name="theme-color" content="#0f766e" />
-  <meta name="msapplication-TileColor" content="#0f766e" />
-  <meta name="msapplication-navbutton-color" content="#0f766e" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="application-name" content="Click’App" />
-
-  <!-- Fallback coloring for browsers that ignore theme-color -->
-  <style>
-    @media (prefers-color-scheme: dark) { body { background-color:#0f172a !important; } }
-    @media (prefers-color-scheme: light){ body { background-color:#0f766e !important; } }
-  </style>
+  <!-- Theme color -->
+  <meta name="theme-color" content="#0f766e">
+  <meta name="msapplication-TileColor" content="#0f766e">
+  <meta name="msapplication-navbutton-color" content="#0f766e">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <script>
-    // Dynamically update theme-color to match dark mode changes
-    (function () {
-      var meta = document.querySelector('meta[name="theme-color"]');
-      var mq = window.matchMedia('(prefers-color-scheme: dark)');
-      function apply(e){ meta.setAttribute('content', e.matches ? '#0f172a' : '#0f766e'); }
-      apply(mq); mq.addEventListener('change', apply);
+    (function(){
+      var m=document.querySelector('meta[name="theme-color"]');
+      var mq=window.matchMedia('(prefers-color-scheme: dark)');
+      function set(e){ m.setAttribute('content', e.matches ? '#0f172a' : '#0f766e'); }
+      set(mq); mq.addEventListener('change', set);
     })();
   </script>
 
   <!-- Social preview -->
-  <meta property="og:title" content="Click’App" />
-  <meta property="og:description" content="Automation tools for NGOs and teams." />
-  <meta property="og:image" content="/og-image.png" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:title" content="Click’App">
+  <meta property="og:description" content="Automation tools for NGOs and teams.">
+  <meta property="og:image" content="/og-image.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
-  <h1>Click’App — Brand Assets</h1>
-  <p>Official icons and wordmarks for Click’App. Do not stretch, recolor, or distort.</p>
+  <header>
+    <h1>Click’App — Brand Assets</h1>
+    <p>Official icons and wordmarks for Click’App. Do not stretch, recolor, or distort.</p>
+  </header>
 
   <div class="grid">
-    <!-- Icon (dark tile, white mark — matches the assets you currently have) -->
+
+    <!-- ICON: light & dark -->
     <div class="card">
-      <h3>Icon</h3>
-      <div class="tile-dark">
-        <img src="/clickapp_icon_white.svg" alt="Click’App icon (white)" class="icon-img-64" />
+      <h3>Icon — Light & Dark</h3>
+      <div class="dl">
+        <div class="tile">
+          <img src="/clickapp_icon_ink.svg" alt="Click’App icon (ink on light)" class="icon-img-64">
+        </div>
+        <div class="tile-dark">
+          <img src="/clickapp_icon_white.svg" alt="Click’App icon (white on dark)" class="icon-img-64">
+        </div>
       </div>
       <div class="dl">
-        <a class="button" href="/clickapp_icon_white.svg" download>Download SVG</a>
+        <a class="button" href="/clickapp_icon_ink.svg" download>Download (ink)</a>
+        <a class="button" href="/clickapp_icon_white.svg" download>Download (white)</a>
       </div>
     </div>
 
-    <!-- Wordmark (dark tile, white mark) -->
+    <!-- WORDMARK: light & dark -->
     <div class="card">
-      <h3>Wordmark</h3>
-      <div class="tile-dark">
-        <img src="/clickapp_wordmark_white.svg" alt="Click’App wordmark (white)" class="brand-wordmark-img" />
+      <h3>Wordmark — Light & Dark</h3>
+      <div class="dl">
+        <div class="tile">
+          <img src="/clickapp_wordmark_ink.svg" alt="Click’App wordmark (ink on light)" class="brand-wordmark-img">
+        </div>
+        <div class="tile-dark">
+          <img src="/clickapp_wordmark_white.svg" alt="Click’App wordmark (white on dark)" class="brand-wordmark-img">
+        </div>
       </div>
       <div class="dl">
-        <a class="button" href="/clickapp_wordmark_white.svg" download>Download SVG</a>
+        <a class="button" href="/clickapp_wordmark_ink.svg" download>Download (ink)</a>
+        <a class="button" href="/clickapp_wordmark_white.svg" download>Download (white)</a>
       </div>
     </div>
 
@@ -102,8 +94,8 @@
     <div class="card">
       <h3>App Icons (PNG)</h3>
       <div class="dl">
-        <img src="/icon-192.png" alt="App icon 192×192" style="height:64px;border-radius:14px;border:1px solid #e2e8f0" />
-        <img src="/icon-512.png" alt="App icon 512×512" style="height:64px;border-radius:14px;border:1px solid #e2e8f0" />
+        <img src="/icon-192.png" alt="icon 192" class="icon-img-64" style="border-radius:14px;border:1px solid #e2e8f0">
+        <img src="/icon-512.png" alt="icon 512" class="icon-img-64" style="border-radius:14px;border:1px solid #e2e8f0">
       </div>
       <div class="dl">
         <a class="button" href="/icon-192.png" download>icon-192.png</a>
@@ -115,8 +107,8 @@
     <div class="card">
       <h3>Favicons</h3>
       <div class="dl">
-        <img src="/favicon-16.png" alt="Favicon 16×16" class="favicon-img" />
-        <img src="/favicon-32.png" alt="Favicon 32×32" class="favicon-img" />
+        <img src="/favicon-16.png" alt="16px" class="fav">
+        <img src="/favicon-32.png" alt="32px" class="fav">
       </div>
       <div class="dl">
         <a class="button" href="/favicon-16.png" download>16px</a>
@@ -129,7 +121,7 @@
     <div class="card">
       <h3>Social Previews</h3>
       <div class="dl">
-        <img src="/og-image.png" alt="Open Graph image (light)" />
+        <img src="/og-image.png" alt="OG light">
       </div>
       <div class="dl">
         <a class="button" href="/og-image.png" download>og-image.png</a>
@@ -141,8 +133,8 @@
     <div class="card" style="grid-column:1 / -1">
       <h3>Bundle</h3>
       <p>Download the complete brand assets pack (SVG + PNG + ICO + OG):</p>
-      <!-- Your npm script will rewrite this href to the latest zip -->
-      <a class="button" href="/ClickApp_BrandAssets_20251001-105136.zip
+      <!-- This href is auto-updated by `npm run brand:all` -->
+      <a class="button" href="/ClickApp_BrandAssets_20251001-135440.zip
 " download>Download All Assets</a>
     </div>
   </div>
