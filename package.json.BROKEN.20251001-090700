@@ -10,8 +10,8 @@
     "preview": "vite preview",
     "images": "node scripts/generate-images.mjs",
     "favicons": "node scripts/make-ico.mjs",
-    "brand:zip": "bash -lc 'stamp=$(date +%Y%m%d-%H%M%S); zip -j public/ClickApp_BrandAssets_$stamp.zip public/clickapp_icon_ink.svg public/clickapp_icon_white.svg public/clickapp_wordmark_ink.svg public/clickapp_wordmark_white.svg public/icon-192.png public/icon-512.png public/favicon-16.png public/favicon-32.png public/favicon.ico public/og-image.png public/og-image-dark.png && echo ClickApp_BrandAssets_$stamp.zip'",
-    "brand:update-link": "/usr/bin/perl -0777 -i -pe 'BEGIN{ $ENV{zip}=qx/ls -t public\\/ClickApp_BrandAssets_*.zip 2>\\/dev\\/null | head -n1 | xargs -n1 basename/; chomp $ENV{zip}; } s#<a[^>]*>\\s*Download All Assets\\s*<\\/a>#sprintf(\"<a class=\\\"button\\\" href=\\\"/%s\\\" download>Download All Assets</a>\", $ENV{zip})#se' public/brand.html",
+    "brand:zip": "bash -lc 'stamp=20250930-032627; zip -j public/ClickApp_BrandAssets_20250930-023707.zip public/clickapp_icon_ink.svg public/clickapp_icon_white.svg public/clickapp_wordmark_ink.svg public/clickapp_wordmark_white.svg public/icon-192.png public/icon-512.png public/favicon-16.png public/favicon-32.png public/favicon.ico public/og-image.png public/og-image-dark.png && echo ClickApp_BrandAssets_20250930-023707.zip'",
+    "brand:update-link": "/usr/bin/perl -0777 -i -pe 'BEGIN{ $ENV{zip}=`ls -t public/ClickApp_BrandAssets_*.zip 2>/dev/null | head -n1 | xargs -n1 basename`; chomp $ENV{zip}; } s#(<a class=\\\"button\\\" href=\\\"/)(ClickApp_BrandAssets_[^\"]+)(\\\" download>)#$1.$ENV{zip}.$3#s' public/brand.html"
     "brand:all": "npm run images && npm run favicons && npm run brand:zip && npm run brand:update-link"
   },
   "dependencies": {
@@ -27,6 +27,9 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.4.0",
+    "icojs": "^0.19.5",
+    "png-to-ico": "^3.0.1",
+    "sharp": "^0.34.4",
     "vite": "npm:rolldown-vite@7.1.12"
   },
   "overrides": {

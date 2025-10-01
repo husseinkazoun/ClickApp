@@ -1,9 +1,0 @@
-<svg width="640" height="160" viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg">
-  <style>
-    .ink{fill:#ffffff}     /* white */
-    .accent{fill:#22d3ee}  /* teal-400 pop on dark */
-  </style>
-  <text x="0" y="112" class="ink"
-        font-family="Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif"
-        font-size="96" font-weight="700">Click<tspan class="accent">’</tspan>App</text>
-</svg>

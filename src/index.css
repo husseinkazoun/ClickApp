@@ -1,115 +1,101 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  /* Brand CSS variables (exposed for HTML and components) */
-  --teal: #0F766E;
-  --amber: #F59E0B;
-  --ink: #0B1620;
-  --white: #FFFFFF;
-  --bg: #F8FAFC;
-
-  /* Radii & shadows */
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --shadow-card: 0 8px 30px rgba(2, 6, 23, 0.08);
+:root{
+  --color-teal:#0F766E;
+  --color-amber:#F59E0B;
+  --color-ink:#0B1620;
+  --color-bg:#F8FAFC;
+  --radius-lg:12px;
+  --radius-xl:16px;
+  --shadow-card:0 8px 30px rgba(2,6,23,0.08);
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+ 
+cat > src/index.css <<'CSS'
+:root{
+  --color-teal:#0F766E;
+  --color-amber:#F59E0B;
+  --color-ink:#0B1620;
+  --color-bg:#F8FAFC;
+  --radius-lg:12px;
+  --radius-xl:16px;
+  --shadow-card:0 8px 30px rgba(2,6,23,0.08);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background:var(--color-bg);
+  color:#0f172a;
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+
+/* App shell fills viewport; we’ll wrap the router/pages in this */
+.app-shell{
+  min-height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Centered hero layout used on WelcomePage */
+.hero-wrap{
+  min-height:100vh;
+  width:100%;
+  display:grid;
+  gap:32px;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  grid-template-columns: 1fr;
+  background:linear-gradient(135deg,#f8fafc 0%, #eef2f7 100%);
+}
+@media (min-width:1024px){
+  .hero-wrap{
+    max-width:1120px; /* ~max-w-4xl */
+    margin:0 auto;
+    grid-template-columns: 1.2fr 1fr; /* tasteful 55/45 split */
   }
 }
-/* Fill the viewport and remove any stray margins */
-html, body, #root { height: 100%; margin: 0; }
 
-/* App shell for full-bleed background + centered content */
-.app-shell {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%); /* light slate gradient */
+/* Card used on the right side of the hero */
+.hero-card{
+  background:#fff;
+  border:1px solid #e2e8f0;
+  border-radius:var(--radius-xl);
+  padding:32px;
+  box-shadow:var(--shadow-card);
 }
 
-/* Optional: constrain max width of the hero/wizard card */
-.hero-wrap {
-  width: 100%;
-  max-width: 1120px;              /* roughly "max-w-4xl" */
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;     /* single column by default */
-  gap: 32px;
-}
+/* Minimal utility fallbacks for classNames used in JSX
+   (helps even if Tailwind isn’t active) */
+.text-center{text-align:center}
+.rounded-2xl{border-radius:var(--radius-xl)}
+.border{border:1px solid #e2e8f0}
+.p-8{padding:32px}
+.p-6{padding:24px}
+.mb-8{margin-bottom:32px}
+.h-2{height:8px}
+.w-full{width:100%}
+.bg-white{background:#fff}
+.bg-slate-200{background:#e2e8f0}
+.bg-teal-600{background:#0F766E}
+.text-white{color:#fff}
+.text-slate-900{color:#0f172a}
+.text-slate-600{color:#475569}
+.text-slate-400{color:#94a3b8}
+.rounded{border-radius:8px}
+.rounded-lg{border-radius:var(--radius-lg)}
+.shadow-2xl{box-shadow:var(--shadow-card)}
+.grid{display:grid}
+.gap-8{gap:32px}
+.max-w-4xl{max-width:64rem}
+.w-auto{width:auto}
+.h-16{height:64px}
+.h-12{height:48px}
 
-@media (min-width: 1024px) {
-  .hero-wrap { grid-template-columns: 1.2fr 1fr; } /* tasteful 55/45 split, not 50/50 */
-}
-
-/* Card look for the small “Ready to begin?” box */
-.hero-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.08);
-  padding: 24px;
-}
+/* Simple progress bar fallback */
+.progress{height:8px;background:#e2e8f0;border-radius:8px;overflow:hidden}
+.progress > .bar{height:100%;background:var(--color-teal)}

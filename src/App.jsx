@@ -99,7 +99,7 @@ function WelcomePage({ onGetStarted }) {
         </div>
 
         <div className="relative">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 border border-slate-200">
+          <div className="hero-card">
             <div className="space-y-6">
               <div className="flex items-center justify-center">
                 <div className="h-20 w-20 rounded-2xl bg-teal-600/10 flex items-center justify-center">
@@ -185,7 +185,7 @@ function RegistrationPage({ formData, handleInputChange, showPassword, setShowPa
             </div>
           </Section>
 
-          <div className="flex flex-col space-y-4 pt-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <button onClick={onNext} disabled={!canContinue}
               className="w-full inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white px-6 py-3 disabled:opacity-60">
               Continue
