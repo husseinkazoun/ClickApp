@@ -1,36 +1,42 @@
 import { useState, useMemo } from "react";
+import Toast from "./components/Toast.jsx";
 
-/** 1) SET YOUR APPS SCRIPT WEBHOOK URL HERE */
-// Use the Web App URL that returns {"ok":true,"hello":"ClickApp"} when opened
+/** Webhook **/
 const ENDPOINT_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLj49Ph0Bvg4W8pSdXOn2n4NALlZewqwq05oGjoeyipd23VNioo4mY52EvAhzBKhPjZsfRdQwn8Db2Q4PgbL8HN4j_-32grSSG0dS2az-vdixavrWcj92HF8kxsMqUPdRrns5TfVDhwVBY9SM-nRFddX4cfg7synahiZCZndRhxe_5lQRIEWEl34RFTRlbb6ic2iWqA6U1P6-yUq5HTCQSkHsCy2soOQofu_d5BOBcjcfDkRexr3oVpOWXHRvg5hi1yYk-f68yLSFE0_DVPUAkKnLKwiqw&lib=M71eeY3c397ix0pWSkIKAFphrWKM1Sp5a";
-/** 2) Sample options (edit freely) */
+
+/** Options **/
 const ORGS = [
-  {
-    name: "Mada Association",
-    departments: [
-      { name: "HR", projects: ["Enumerator Recruitment", "CFP Onboarding"] },
-      { name: "Procurement", projects: ["Vouchers Market", "Local Tenders"] },
-      { name: "Finance", projects: ["Cash for Work", "Monthly Reporting"] },
-    ],
-  },
-  {
-    name: "Nation Station",
-    departments: [
-      { name: "Operations", projects: ["Community Kitchen", "Warehouse"] },
-      { name: "MEAL", projects: ["Post Distribution Monitoring", "Feedback Loop"] },
-    ],
-  },
+  { name: "Mada Association", departments: [
+    { name: "HR", projects: ["Enumerator Recruitment", "CFP Onboarding"] },
+    { name: "Procurement", projects: ["Vouchers Market", "Local Tenders"] },
+    { name: "Finance", projects: ["Cash for Work", "Monthly Reporting"] },
+  ]},
+  { name: "Nation Station", departments: [
+    { name: "Operations", projects: ["Community Kitchen", "Warehouse"] },
+    { name: "MEAL", projects: ["Post Distribution Monitoring", "Feedback Loop"] },
+  ]},
 ];
 
-function Section({ title, children }) {
+/** Utils **/
+const emailOk = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+const pwScore = (pw) => {
+  let s = 0;
+  if (pw.length >= 8) s++;
+  if (/[A-Z]/.test(pw)) s++;
+  if (/[a-z]/.test(pw)) s++;
+  if (/\d/.test(pw)) s++;
+  if (/[^A-Za-z0-9]/.test(pw)) s++;
+  return Math.min(s, 4); // 0..4
+};
+
+function Section({ title, htmlFor, children }) {
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-slate-300">{title}</label>
+      <label htmlFor={htmlFor} className="block text-sm font-medium text-slate-300">{title}</label>
       {children}
     </div>
   );
 }
-
 function TextInput(props) {
   return (
     <input
@@ -43,42 +49,35 @@ function TextInput(props) {
     />
   );
 }
-
-function Select({ value, onChange, options, placeholder = "Select…" }) {
+function Select({ value, onChange, options, placeholder="Select…" , id}) {
   return (
     <select
+      id={id}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       className="w-full rounded-md px-3 py-2 bg-slate-700/50 border border-slate-600 text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
     >
       <option value="">{placeholder}</option>
-      {options.map((opt) => (
-        <option key={opt} value={opt}>
-          {opt}
-        </option>
-      ))}
+      {options.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
     </select>
   );
 }
 
+/** Pages **/
 function WelcomePage({ onGetStarted }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
       <div className="max-w-4xl w-full grid lg:grid-cols-2 gap-8 items-center">
         <div className="space-y-8">
           <div className="space-y-6">
-            <img
-              src="/clickapp_wordmark_ink.svg"
-              alt="Click’App"
-              className="h-16 w-auto"
-              onError={(e) => (e.currentTarget.style.display = "none")}
-            />
+            <picture>
+              <source srcSet="/clickapp_wordmark_white.svg" media="(prefers-color-scheme: dark)" />
+              <img src="/clickapp_wordmark_ink.svg" alt="Click’App" className="h-16 w-auto" />
+            </picture>
             <div className="space-y-4">
               <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
                 Welcome to the Future of{" "}
-                <span className="text-transparent bg-gradient-to-r from-teal-600 to-orange-500 bg-clip-text">
-                  Digital Innovation
-                </span>
+                <span className="text-transparent bg-gradient-to-r from-teal-600 to-orange-500 bg-clip-text">Digital Innovation</span>
               </h1>
               <p className="text-xl text-slate-600">
                 Transform your workflow with intelligent automation and seamless user experiences.
@@ -88,43 +87,14 @@ function WelcomePage({ onGetStarted }) {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <button
-              onClick={onGetStarted}
-              className="inline-flex items-center justify-center rounded-lg bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 text-lg"
-            >
+            <button onClick={onGetStarted}
+              className="inline-flex items-center justify-center rounded-lg bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 text-lg">
               Get Started
-              <svg className="ml-2 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14" />
-                <path d="M12 5l7 7-7 7" />
-              </svg>
+              <svg className="ml-2 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
             </button>
-
-            <a
-              href="#"
-              className="inline-flex items-center justify-center rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 px-8 py-3 text-lg"
-            >
+            <a href="#" className="inline-flex items-center justify-center rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 px-8 py-3 text-lg">
               Watch Demo
             </a>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8">
-            {[
-              { title: "Secure", desc: "Enterprise-grade security" },
-              { title: "Fast", desc: "Lightning-fast performance" },
-              { title: "Intuitive", desc: "Easy to use interface" },
-            ].map((f) => (
-              <div key={f.title} className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
-                  <svg className="h-5 w-5 text-teal-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-900">{f.title}</h3>
-                  <p className="text-sm text-slate-600">{f.desc}</p>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
 
@@ -133,21 +103,15 @@ function WelcomePage({ onGetStarted }) {
             <div className="space-y-6">
               <div className="flex items-center justify-center">
                 <div className="h-20 w-20 rounded-2xl bg-teal-600/10 flex items-center justify-center">
-                  <svg className="h-10 w-10 text-teal-700" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 5v5h5v2h-7V7h2z" />
-                  </svg>
+                  <svg className="h-10 w-10 text-teal-700" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 5v5h5v2h-7V7h2z"/></svg>
                 </div>
               </div>
               <div className="text-center space-y-2">
                 <h3 className="text-xl font-semibold text-slate-900">Ready to begin?</h3>
                 <p className="text-slate-600">Set up your account in just a few steps</p>
               </div>
-              <div className="w-full h-2 bg-slate-200 rounded">
-                <div className="h-2 bg-teal-600 rounded" style={{ width: "0%" }} />
-              </div>
-              <div className="text-center">
-                <p className="text-sm text-slate-500">Step 0 of 3</p>
-              </div>
+              <div className="w-full h-2 bg-slate-200 rounded"><div className="h-2 bg-teal-600 rounded" style={{ width: "0%" }}/></div>
+              <div className="text-center"><p className="text-sm text-slate-500">Step 0 of 3</p></div>
             </div>
           </div>
         </div>
@@ -157,16 +121,19 @@ function WelcomePage({ onGetStarted }) {
 }
 
 function RegistrationPage({ formData, handleInputChange, showPassword, setShowPassword, onNext, onBack }) {
+  const emailValid = emailOk(formData.email);
+  const pw = formData.password || "";
+  const score = pwScore(pw);
+  const canContinue = formData.firstName && formData.lastName && emailValid && score >= 2;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <img
-            src="/clickapp_wordmark_white.svg"
-            alt="Click’App"
-            className="h-12 w-auto mx-auto mb-6"
-            onError={(e) => (e.currentTarget.style.display = "none")}
-          />
+          <picture>
+            <source srcSet="/clickapp_wordmark_white.svg" media="(prefers-color-scheme: dark)" />
+            <img src="/clickapp_wordmark_ink.svg" alt="Click’App" className="h-12 w-auto mx-auto mb-6" />
+          </picture>
           <h1 className="text-2xl font-bold text-white mb-2">Create Your Account</h1>
           <p className="text-slate-400">Join the Click’App community today</p>
         </div>
@@ -174,87 +141,57 @@ function RegistrationPage({ formData, handleInputChange, showPassword, setShowPa
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-slate-400">Step 1 of 3</span>
-            <span className="text-sm text-slate-400">33%</span>
+            <span className="text-sm text-slate-400">{Math.round(((formData.firstName&&formData.lastName&&emailValid&&score>=2)?1:0)/1*33) || 33}%</span>
           </div>
-          <div className="w-full h-2 bg-slate-700 rounded">
-            <div className="h-2 bg-teal-500 rounded" style={{ width: "33%" }} />
-          </div>
+          <div className="w-full h-2 bg-slate-700 rounded"><div className="h-2 bg-teal-500 rounded" style={{ width: "33%" }}/></div>
         </div>
 
         <div className="bg-slate-800/50 border border-slate-700 backdrop-blur-sm rounded-xl p-6 space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <Section title="First Name">
-              <TextInput
-                id="firstName"
-                placeholder="John"
-                value={formData.firstName}
-                onChange={(e) => handleInputChange("firstName", e.target.value)}
-              />
+            <Section title="First Name" htmlFor="firstName">
+              <TextInput id="firstName" placeholder="John" value={formData.firstName}
+                onChange={(e)=>handleInputChange("firstName", e.target.value)} />
             </Section>
-            <Section title="Last Name">
-              <TextInput
-                id="lastName"
-                placeholder="Doe"
-                value={formData.lastName}
-                onChange={(e) => handleInputChange("lastName", e.target.value)}
-              />
+            <Section title="Last Name" htmlFor="lastName">
+              <TextInput id="lastName" placeholder="Doe" value={formData.lastName}
+                onChange={(e)=>handleInputChange("lastName", e.target.value)} />
             </Section>
           </div>
 
-          <Section title="Email Address">
-            <TextInput
-              id="email"
-              type="email"
-              placeholder="john.doe@example.com"
-              value={formData.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
-            />
+          <Section title="Email Address" htmlFor="email">
+            <TextInput id="email" type="email" placeholder="john.doe@example.com" value={formData.email}
+              onChange={(e)=>handleInputChange("email", e.target.value)}
+              aria-invalid={formData.email && !emailValid} />
+            {formData.email && !emailValid && <p className="text-sm text-red-400">Please enter a valid email.</p>}
           </Section>
 
-          <Section title="Password">
+          <Section title="Password" htmlFor="password">
             <div className="relative">
-              <TextInput
-                id="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="Create a strong password"
-                value={formData.password}
-                onChange={(e) => handleInputChange("password", e.target.value)}
-                className="pr-10"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300"
-              >
+              <TextInput id="password" type={showPassword ? "text" : "password"} placeholder="Create a strong password"
+                value={formData.password} onChange={(e)=>handleInputChange("password", e.target.value)} className="pr-10" />
+              <button type="button" onClick={()=>setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300" aria-label="Toggle password visibility">
                 {showPassword ? "🙈" : "👁️"}
               </button>
+            </div>
+            {/* strength meter */}
+            <div className="mt-2">
+              <div className="w-full h-2 bg-slate-700 rounded overflow-hidden">
+                <div className={`h-2 ${score>=3?"bg-teal-500":score===2?"bg-amber-500":score===1?"bg-orange-500":"bg-red-500"}`} style={{ width: `${(score/4)*100}%` }}/>
+              </div>
+              <p className="text-xs text-slate-400 mt-1">
+                {score>=3 ? "Strong password" : score===2 ? "Okay — add a symbol or number" : score===1 ? "Weak — add upper/lowercase and digits" : "Too short"}
+              </p>
             </div>
           </Section>
 
           <div className="flex flex-col space-y-4 pt-4">
-            <button
-              onClick={onNext}
-              className="w-full inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white px-6 py-3"
-            >
+            <button onClick={onNext} disabled={!canContinue}
+              className="w-full inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white px-6 py-3 disabled:opacity-60">
               Continue
-              <svg className="ml-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14" />
-                <path d="M12 5l7 7-7 7" />
-              </svg>
+              <svg className="ml-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
             </button>
-
-            <button
-              onClick={onBack}
-              className="w-full rounded-lg text-slate-300 hover:text-white hover:bg-slate-700/50 px-6 py-3 border border-transparent"
-            >
-              Back to Welcome
-            </button>
-          </div>
-
-          <div className="text-center pt-4">
-            <p className="text-sm text-slate-400">
-              Already have an account? <a href="#" className="text-teal-400 hover:text-teal-300 font-medium">Sign in</a>
-            </p>
+            <button onClick={onBack} className="w-full rounded-lg text-slate-300 hover:text-white hover:bg-slate-700/50 px-6 py-3 border border-transparent">Back to Welcome</button>
           </div>
         </div>
       </div>
@@ -274,16 +211,10 @@ function OrgDeptProject({ formData, handleInputChange, onNext, onBack }) {
     return d ? d.projects : [];
   }, [formData.organization, formData.department]);
 
-  // Reset child fields if parent changes
-  const setOrg = (v) => {
-    handleInputChange("organization", v);
-    handleInputChange("department", "");
-    handleInputChange("project", "");
-  };
-  const setDept = (v) => {
-    handleInputChange("department", v);
-    handleInputChange("project", "");
-  };
+  const setOrg = (v) => { handleInputChange("organization", v); handleInputChange("department", ""); handleInputChange("project", ""); };
+  const setDept = (v) => { handleInputChange("department", v); handleInputChange("project", ""); };
+
+  const canContinue = formData.organization && formData.department && formData.project;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center p-4">
@@ -298,39 +229,26 @@ function OrgDeptProject({ formData, handleInputChange, onNext, onBack }) {
             <span className="text-sm text-slate-400">Step 2 of 3</span>
             <span className="text-sm text-slate-400">66%</span>
           </div>
-          <div className="w-full h-2 bg-slate-700 rounded">
-            <div className="h-2 bg-teal-500 rounded" style={{ width: "66%" }} />
-          </div>
+          <div className="w-full h-2 bg-slate-700 rounded"><div className="h-2 bg-teal-500 rounded" style={{ width: "66%" }}/></div>
         </div>
 
         <div className="bg-slate-800/50 border border-slate-700 backdrop-blur-sm rounded-xl p-6 space-y-4">
-          <Section title="Organization">
-            <Select value={formData.organization} onChange={setOrg} options={orgNames} placeholder="Select organization…" />
+          <Section title="Organization" htmlFor="org">
+            <Select id="org" value={formData.organization} onChange={setOrg} options={orgNames} placeholder="Select organization…" />
           </Section>
-
-          <Section title="Department">
-            <Select value={formData.department} onChange={setDept} options={departments} placeholder="Select department…" />
+          <Section title="Department" htmlFor="dept">
+            <Select id="dept" value={formData.department} onChange={setDept} options={departments} placeholder="Select department…" />
           </Section>
-
-          <Section title="Project">
-            <Select value={formData.project} onChange={(v) => handleInputChange("project", v)} options={projects} placeholder="Select project…" />
+          <Section title="Project" htmlFor="proj">
+            <Select id="proj" value={formData.project} onChange={(v)=>handleInputChange("project", v)} options={projects} placeholder="Select project…" />
           </Section>
 
           <div className="flex flex-col space-y-4 pt-2">
-            <button
-              onClick={onNext}
-              className="w-full inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white px-6 py-3"
-              disabled={!formData.organization || !formData.department || !formData.project}
-            >
+            <button onClick={onNext} disabled={!canContinue}
+              className="w-full inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white px-6 py-3 disabled:opacity-60">
               Continue
             </button>
-
-            <button
-              onClick={onBack}
-              className="w-full rounded-lg text-slate-300 hover:text-white hover:bg-slate-700/50 px-6 py-3 border border-transparent"
-            >
-              Back
-            </button>
+            <button onClick={onBack} className="w-full rounded-lg text-slate-300 hover:text-white hover:bg-slate-700/50 px-6 py-3 border border-transparent">Back</button>
           </div>
         </div>
       </div>
@@ -338,7 +256,7 @@ function OrgDeptProject({ formData, handleInputChange, onNext, onBack }) {
   );
 }
 
-function ReviewSubmit({ formData, onBackToOrg, onSubmitted }) {
+function ReviewSubmit({ formData, onBackToOrg, onSubmitted, pushToast }) {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
@@ -351,65 +269,23 @@ function ReviewSubmit({ formData, onBackToOrg, onSubmitted }) {
     department: formData.department,
     project: formData.project,
   };
-  const canSubmit =
-    payload.firstName &&
-    payload.lastName &&
-    payload.email &&
-    payload.organization &&
-    payload.department &&
-    payload.project;
 
   async function submit() {
-    setErr("");
-    setLoading(true);
+    setErr(""); setLoading(true);
     try {
-      // 1) Try a truly simple POST (no headers at all)
-      try {
-        const res = await fetch(ENDPOINT_URL, {
-          method: "POST",
-          body: JSON.stringify({ ...payload, token: "whenwewereinour30swewenttowar" }),
-        });
-        if (res.ok) {
-          const data = await res.json().catch(() => ({}));
-          if (data.ok) {
-            onSubmitted();
-            return;
-          }
-        }
-      } catch {
-        // ignore and fall through
-      }
-
-      // 2) Fallback: opaque request bypassing CORS
-      try {
-        await fetch(ENDPOINT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          body: JSON.stringify({ ...payload, token: "whenwewereinour30swewenttowar" }),
-        });
-        onSubmitted();
-        return;
-      } catch {
-        // ignore and try beacon
-      }
-
-      // 3) Last resort: background beacon (fire-and-forget)
-      try {
-        const blob = new Blob(
-          [JSON.stringify({ ...payload, token: "whenwewereinour30swewenttowar" })],
-          { type: "text/plain" }
-        );
-        const sent = navigator.sendBeacon?.(ENDPOINT_URL, blob);
-        if (sent) {
-          onSubmitted();
-          return;
-        }
-      } catch {}
-
-      // If all three paths failed hard:
-      throw new Error("network");
-    } catch {
-      setErr("Failed to fetch");
+      const res = await fetch(ENDPOINT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...payload, token: "whenwewereinour30swewenttowar" }),
+      });
+      const ok = res.ok;
+      if (!ok) throw new Error(`HTTP ${res.status}`);
+      pushToast({ type: "success", message: "Submitted! Check your sheet." });
+      onSubmitted();
+    } catch (e) {
+      const msg = `Submit failed: ${e.message}`;
+      setErr(msg);
+      pushToast({ type: "error", message: msg });
     } finally {
       setLoading(false);
     }
@@ -428,9 +304,7 @@ function ReviewSubmit({ formData, onBackToOrg, onSubmitted }) {
             <span className="text-sm text-slate-400">Step 3 of 3</span>
             <span className="text-sm text-slate-400">100%</span>
           </div>
-          <div className="w-full h-2 bg-slate-700 rounded">
-            <div className="h-2 bg-teal-500 rounded" style={{ width: "100%" }} />
-          </div>
+          <div className="w-full h-2 bg-slate-700 rounded"><div className="h-2 bg-teal-500 rounded" style={{ width: "100%" }}/></div>
         </div>
 
         <div className="bg-slate-800/50 border border-slate-700 backdrop-blur-sm rounded-xl p-6 space-y-3 text-slate-200">
@@ -440,22 +314,19 @@ function ReviewSubmit({ formData, onBackToOrg, onSubmitted }) {
           <div className="flex justify-between"><span>Department</span><span>{payload.department}</span></div>
           <div className="flex justify-between"><span>Project</span><span>{payload.project}</span></div>
 
-          {err && <p className="text-red-400 pt-2">{err}</p>}
+          {err && <p className="text-red-400 pt-2" role="alert">{err}</p>}
 
           <div className="flex flex-col space-y-3 pt-4">
-            <button
-              onClick={submit}
-              disabled={loading || !canSubmit}
-              className="w-full inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white px-6 py-3 disabled:opacity-60"
-            >
-              {loading ? "Submitting…" : "Submit"}
+            <button onClick={submit} disabled={loading}
+              className="w-full inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white px-6 py-3 disabled:opacity-60">
+              {loading ? (
+                <span className="inline-flex items-center gap-2">
+                  <span className="inline-block h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                  Submitting…
+                </span>
+              ) : "Submit"}
             </button>
-            <button
-              onClick={onBackToOrg}
-              className="w-full rounded-lg text-slate-300 hover:text-white hover:bg-slate-700/50 px-6 py-3 border border-transparent"
-            >
-              Back
-            </button>
+            <button onClick={onBackToOrg} className="w-full rounded-lg text-slate-300 hover:text-white hover:bg-slate-700/50 px-6 py-3 border border-transparent">Back</button>
           </div>
         </div>
       </div>
@@ -480,17 +351,11 @@ function Success() {
 export default function App() {
   const [step, setStep] = useState("welcome");
   const [showPassword, setShowPassword] = useState(false);
-  const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    organization: "",
-    department: "",
-    project: "",
-  });
+  const [form, setForm] = useState({ firstName:"", lastName:"", email:"", password:"", organization:"", department:"", project:"" });
+  const [toast, setToast] = useState({ open:false, type:"info", message:"" });
 
   const handle = (field, value) => setForm((p) => ({ ...p, [field]: value }));
+  const pushToast = ({type, message}) => setToast({ open:true, type, message });
 
   return (
     <div className="font-sans">
@@ -518,9 +383,12 @@ export default function App() {
           formData={form}
           onBackToOrg={() => setStep("odp")}
           onSubmitted={() => setStep("done")}
+          pushToast={pushToast}
         />
       )}
       {step === "done" && <Success />}
+
+      <Toast open={toast.open} type={toast.type} message={toast.message} onClose={() => setToast((t)=>({ ...t, open:false }))} />
     </div>
   );
 }
