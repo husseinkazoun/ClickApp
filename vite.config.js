@@ -1,7 +1,9 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-  plugins: [react()],
-  base: '/ClickApp/', // required for GitHub Pages under /ClickApp/
-})
+  /** Project Pages live at /ClickApp/ */
+  base: '/ClickApp/',
+  /** Build to docs/ so GitHub Pages can serve from the branch */
+  build: { outDir: 'docs', emptyOutDir: false },
+  server: { open: '/brand.html' }
+});
