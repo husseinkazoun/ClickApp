@@ -32,3 +32,8 @@ public/_archive/
 public/ClickApp_BrandAssets_*/
 public/ClickApp_BrandAssets_*.zip
 public/*.zip
+
+# Ignore Manus delivery zips
+ClickApp_ManusDelivery_*/
+ClickApp_ManusDelivery_*.zip
+
