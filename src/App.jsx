@@ -358,7 +358,7 @@ export default function App() {
   const pushToast = ({type, message}) => setToast({ open:true, type, message });
 
   return (
-    <div className="font-sans">
+    <div className="app-shell">
       {step === "welcome" && <WelcomePage onGetStarted={() => setStep("reg")} />}
       {step === "reg" && (
         <RegistrationPage

@@ -11,6 +11,18 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Brand CSS variables (exposed for HTML and components) */
+  --teal: #0F766E;
+  --amber: #F59E0B;
+  --ink: #0B1620;
+  --white: #FFFFFF;
+  --bg: #F8FAFC;
+
+  /* Radii & shadows */
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --shadow-card: 0 8px 30px rgba(2, 6, 23, 0.08);
 }
 
 a {
