@@ -66,3 +66,38 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+/* Fill the viewport and remove any stray margins */
+html, body, #root { height: 100%; margin: 0; }
+
+/* App shell for full-bleed background + centered content */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%); /* light slate gradient */
+}
+
+/* Optional: constrain max width of the hero/wizard card */
+.hero-wrap {
+  width: 100%;
+  max-width: 1120px;              /* roughly "max-w-4xl" */
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;     /* single column by default */
+  gap: 32px;
+}
+
+@media (min-width: 1024px) {
+  .hero-wrap { grid-template-columns: 1.2fr 1fr; } /* tasteful 55/45 split, not 50/50 */
+}
+
+/* Card look for the small “Ready to begin?” box */
+.hero-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.08);
+  padding: 24px;
+}
