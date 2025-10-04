@@ -17,7 +17,8 @@
     "brand:stamp": "/usr/bin/perl -0777 -i -pe 'BEGIN{ $ENV{zip}=qx/ls -t public\\/ClickApp_BrandAssets_*.zip 2>\\/dev\\/null | head -n1 | xargs -n1 basename/; chomp $ENV{zip}; } s#(<a class=\"button\" href=\"/[^\"]+\" download>Download All Assets</a>)(?![\\s\\S]*?Latest:)#sprintf(\"$1\\n      <p class=\\\"text-slate-600\\\" style=\\\"margin-top:6px\\\">Latest: %s</p>\", $ENV{zip})#se' public/brand.html",
     "pages:copy": "rsync -av --delete --exclude '_archive' --exclude '.DS_Store' public/ docs/",
     "pages:redirect": "node scripts/pages-redirect.mjs",
-    "pages:publish": "npm run pages:copy && npm run pages:redirect && git add docs && git commit -m 'pages: publish brand site' || true && git push"
+    "pages:publish": "npm run pages:copy && npm run pages:redirect && git add docs && git commit -m 'pages: publish brand site' || true && git push",
+    "build:demo": "vite build --base=/ClickApp/app/ --outDir docs/app"
   },
   "dependencies": {
     "react": "^19.1.1",
