@@ -1,6 +1,0 @@
-<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Click’App icon – C plus pointer">
-  <!-- Teal C-ring -->
-  <circle cx="128" cy="128" r="92" fill="none" stroke="#0F766E" stroke-width="28" stroke-linecap="round"/>
-  <!-- Amber pointer entering at ~4:30 -->
-  <path d="M150 96 L196 118 C200 120 200 126 196 128 L177 137 186 156 C188 160 184 164 180 162 L161 153 152 172 C150 176 144 176 142 172 L120 126 C118 122 122 118 126 120 L145 129 154 110 C156 106 161 104 165 106Z" fill="#F59E0B"/>
-</svg>
