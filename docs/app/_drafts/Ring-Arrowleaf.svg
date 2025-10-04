@@ -1,6 +1,0 @@
-<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Click’App icon – ring with arrowleaf">
-  <!-- Teal ring -->
-  <circle cx="128" cy="128" r="92" fill="none" stroke="#0F766E" stroke-width="28"/>
-  <!-- Amber wedge pointer (entering from top-right) -->
-  <path d="M178 68 L208 128 L148 158 Z" fill="#F59E0B"/>
-</svg>
