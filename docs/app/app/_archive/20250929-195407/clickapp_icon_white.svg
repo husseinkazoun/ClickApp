@@ -1,0 +1,10 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .ring{fill:#ffffff}    /* white ring for dark UI */
+    .cursor{fill:#f59e0b}  /* amber-500 */
+    .hole{fill:#0f172a}    /* slate-900 inner to define the ring */
+  </style>
+  <circle cx="128" cy="128" r="112" class="ring"/>
+  <circle cx="128" cy="128" r="88" class="hole"/>
+  <path class="cursor" d="M114 88l58 26c4 2 4 7 0 9l-22 10 10 22c2 4-2 8-6 6l-22-10-10 22c-2 4-7 4-9 0l-26-58c-2-4 2-8 6-6l21 9 10-21c2-4 7-4 9 0z"/>
+</svg>
