@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="300" viewBox="0 0 1600 300">
+  <rect width="100%" height="100%" fill="#FFFFFF"/>
+  <g font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+    <text x="100" y="160" font-size="96" fill="#0B1620" font-weight="300">Less</text>
+    <text x="370" y="160" font-size="96" fill="#0F766E" font-weight="600">Admin</text>
+    <text x="750" y="160" font-size="96" fill="#0B1620" font-weight="400">, More</text>
+    <text x="1160" y="160" font-size="96" fill="#F59E0B" font-weight="700">Impact</text>
+  </g>
+</svg>
