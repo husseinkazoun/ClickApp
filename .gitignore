@@ -41,3 +41,4 @@ public/ClickApp_BrandAssets_*.zip
 node_modules
 .env.local
 supabase/.env.submit
+.env.local.txt
