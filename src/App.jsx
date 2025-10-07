@@ -1,5 +1,19 @@
 import { useState, useMemo } from "react";
 import Toast from "./components/Toast.jsx";
+import { createClient } from '@supabase/supabase-js';
+
+/** Supabase client (Vite envs) **/
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
+
+/** Temporary mapping: replace with real UUIDs from Supabase -> organizations table */
+const ORG_ID_MAP = {
+  "Mada Association": "REPLACE_UUID_MADA",
+  "Nation Station": "REPLACE_UUID_NATION",
+  "FDF": "REPLACE_UUID_FDF"
+};
 
 /** Webhook **/
 const ENDPOINT_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLj49Ph0Bvg4W8pSdXOn2n4NALlZewqwq05oGjoeyipd23VNioo4mY52EvAhzBKhPjZsfRdQwn8Db2Q4PgbL8HN4j_-32grSSG0dS2az-vdixavrWcj92HF8kxsMqUPdRrns5TfVDhwVBY9SM-nRFddX4cfg7synahiZCZndRhxe_5lQRIEWEl34RFTRlbb6ic2iWqA6U1P6-yUq5HTCQSkHsCy2soOQofu_d5BOBcjcfDkRexr3oVpOWXHRvg5hi1yYk-f68yLSFE0_DVPUAkKnLKwiqw&lib=M71eeY3c397ix0pWSkIKAFphrWKM1Sp5a";
@@ -273,14 +287,33 @@ function ReviewSubmit({ formData, onBackToOrg, onSubmitted, pushToast }) {
   async function submit() {
     setErr(""); setLoading(true);
     try {
-      const res = await fetch(ENDPOINT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...payload, token: "whenwewereinour30swewenttowar" }),
+      // Must be signed in so the Edge Function receives a JWT for RLS
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error("Please sign in first (no user session found).");
+      }
+
+      const orgId = ORG_ID_MAP[payload.organization];
+      if (!orgId || orgId.startsWith("REPLACE_UUID")) {
+        throw new Error("Unknown organization. Add its UUID to ORG_ID_MAP.");
+      }
+
+      const { data, error } = await supabase.functions.invoke('submit', {
+        body: {
+          type: 'HR',                          // adjust if you support more types
+          orgId,
+          deptId: null,                        // wire real IDs later
+          projectId: null,
+          formData: payload,
+          attachments: []                      // wire uploads later
+        }
       });
-      const ok = res.ok;
-      if (!ok) throw new Error(`HTTP ${res.status}`);
-      pushToast({ type: "success", message: "Submitted! Check your sheet." });
+
+      if (error || !data?.ok) {
+        throw new Error(error?.message || data?.error || "Submit failed.");
+      }
+
+      pushToast({ type: "success", message: "Submitted via Edge Function!" });
       onSubmitted();
     } catch (e) {
       const msg = `Submit failed: ${e.message}`;

@@ -1,0 +1,25 @@
+:root{
+  --ink:#0B1620; --teal:#0F766E; --amber:#F59E0B;
+}
+
+/* non-intrusive header that doesn't break your layout */
+.brandbar{
+  position:absolute; /* sits above hero without reflow */
+  top:24px; left:24px; z-index:10;
+}
+.brandbar a{ display:inline-block; line-height:0; }
+.brandbar img{ height:28px; width:auto; display:block; }
+
+/* scale up a bit on wider screens */
+@media (min-width:768px){
+  .brandbar img{ height:32px; }
+}
+
+/* just in case the page ever gets a dark hero */
+@media (prefers-color-scheme: dark){
+  .brandbar .light { display:none; }
+  .brandbar .dark  { display:inline; }
+}
+@media (prefers-color-scheme: light){
+  .brandbar .dark  { display:none; }
+}
