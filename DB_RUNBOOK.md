@@ -1,0 +1,4 @@
+- Link: `supabase link --project-ref hvtncjgbtlmxyussazyh`
+- Make change: `supabase db diff -f <topic> --schema public,auth,storage`
+- Apply to prod: `supabase db remote apply`
+- Manual dashboard edits → `supabase db pull --schema public,auth,storage` → commit
