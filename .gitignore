@@ -42,6 +42,31 @@ node_modules
 .env.local
 supabase/.env.submit
 .env.local.txt
+<<<<<<< Updated upstream
 
 # Supabase temp
 supabase/.temp/
+=======
+.env
+.env.*
+*.env
+*.env.*
+.env.local
+.env.local.*
+supabase/.env.*
+supabase/.env.submit
+!.env.example
+node_modules/
+dist/
+build/
+supabase/.temp/
+supabase/.branches/
+supabase/.dev/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+.DS_Store
+*.swp
+.idea/
+.vscode/
+>>>>>>> Stashed changes
